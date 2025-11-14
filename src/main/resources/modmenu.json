@@ -1,0 +1,9 @@
+{
+  "modmenu": {
+    "badges": [],
+    "links": {},
+    "linksWhitelist": [],
+    "canCreateConfigScreen": true,
+    "customScreenFactoryClassName": "com.example.blender2mcholograms.ModMenuConfigScreen"
+  }
+}

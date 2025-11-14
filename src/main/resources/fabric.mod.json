@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "blender2mcholograms",
+  "version": "1.0.0",
+  "name": "Blender2MCHolograms",
+  "description": "Client-side mod to display Blender models as holograms in Minecraft.",
+  "authors": ["BoshyWashy"],
+  "license": "MIT",
+  "icon": "assets/blender2mcholograms/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.example.blender2mcholograms.Blender2MCHologramsMod"
+    ],
+    "modmenu": [
+      "com.example.blender2mcholograms.ModMenuEntrypoint"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "minecraft": "1.21.4",
+    "modmenu": ">=11.0.0"
+  }
+}
