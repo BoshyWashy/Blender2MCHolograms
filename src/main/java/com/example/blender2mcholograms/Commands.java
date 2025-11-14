@@ -14,10 +14,13 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.lit
 public class Commands {
     private final ModelLoader loader;
     private final ConfigManager config;
+    @SuppressWarnings("unused")
     private final Renderer renderer;
 
     public Commands(ModelLoader loader, ConfigManager config, Renderer renderer) {
-        this.loader = loader; this.config = config; this.renderer = renderer;
+        this.loader = loader;
+        this.config = config;
+        this.renderer = renderer;
     }
 
     public void register() {
@@ -30,13 +33,15 @@ public class Commands {
                         config.offsetY = (float) player.getY();
                         config.offsetZ = (float) player.getZ();
                         config.save();
-                        player.sendMessage(Text.literal("Blender model center moved to your position").formatted(Formatting.GREEN));
+                        player.sendMessage(Text.literal("Blender model center moved to your position").formatted(Formatting.GREEN), false);
                         return 1;
                     }))
                     .then(literal("displace")
                             .then(argument("axis", StringArgumentType.word())
                                     .suggests((c, b) -> {
-                                        b.suggest("x"); b.suggest("y"); b.suggest("z");
+                                        b.suggest("x");
+                                        b.suggest("y");
+                                        b.suggest("z");
                                         return b.buildFuture();
                                     })
                                     .then(argument("number", FloatArgumentType.floatArg())
@@ -49,12 +54,12 @@ public class Commands {
                                                     case "z": config.offsetZ = amount; break;
                                                     default:
                                                         var pl = MinecraftClient.getInstance().player;
-                                                        if (pl != null) pl.sendMessage(Text.literal("Axis must be x/y/z").formatted(Formatting.RED));
+                                                        if (pl != null) pl.sendMessage(Text.literal("Axis must be x/y/z").formatted(Formatting.RED), false);
                                                         return 0;
                                                 }
                                                 config.save();
                                                 var pl = MinecraftClient.getInstance().player;
-                                                if (pl != null) pl.sendMessage(Text.literal("Displaced " + axis + " to " + amount).formatted(Formatting.GREEN));
+                                                if (pl != null) pl.sendMessage(Text.literal("Displaced " + axis + " to " + amount).formatted(Formatting.GREEN), false);
                                                 return 1;
                                             })
                                     )
@@ -67,7 +72,7 @@ public class Commands {
                                         config.rotationDegrees = deg;
                                         config.save();
                                         var pl = MinecraftClient.getInstance().player;
-                                        if (pl != null) pl.sendMessage(Text.literal("Rotation set to " + deg).formatted(Formatting.GREEN));
+                                        if (pl != null) pl.sendMessage(Text.literal("Rotation set to " + deg).formatted(Formatting.GREEN), false);
                                         return 1;
                                     })
                             )
@@ -79,30 +84,33 @@ public class Commands {
                                         config.visibleRadius = r;
                                         config.save();
                                         var pl = MinecraftClient.getInstance().player;
-                                        if (pl != null) pl.sendMessage(Text.literal("Visibility radius set to " + r).formatted(Formatting.GREEN));
+                                        if (pl != null) pl.sendMessage(Text.literal("Visibility radius set to " + r).formatted(Formatting.GREEN), false);
                                         return 1;
                                     })
                             )
                     )
                     .then(literal("enable").executes(ctx -> {
-                        config.enabled = true; config.save();
+                        config.enabled = true;
+                        config.save();
                         var pl = MinecraftClient.getInstance().player;
-                        if (pl != null) pl.sendMessage(Text.literal("Blender2MCHolograms enabled").formatted(Formatting.GREEN));
+                        if (pl != null) pl.sendMessage(Text.literal("Blender2MCHolograms enabled").formatted(Formatting.GREEN), false);
                         return 1;
                     }))
                     .then(literal("disable").executes(ctx -> {
-                        config.enabled = false; config.save();
+                        config.enabled = false;
+                        config.save();
                         var pl = MinecraftClient.getInstance().player;
-                        if (pl != null) pl.sendMessage(Text.literal("Blender2MCHolograms disabled").formatted(Formatting.YELLOW));
+                        if (pl != null) pl.sendMessage(Text.literal("Blender2MCHolograms disabled").formatted(Formatting.YELLOW), false);
                         return 1;
                     }))
                     .then(literal("opacity")
                             .then(argument("value", FloatArgumentType.floatArg(0f, 1f))
                                     .executes(ctx -> {
                                         float v = FloatArgumentType.getFloat(ctx, "value");
-                                        config.opacity = v; config.save();
+                                        config.opacity = v;
+                                        config.save();
                                         var pl = MinecraftClient.getInstance().player;
-                                        if (pl != null) pl.sendMessage(Text.literal("Opacity set to " + (int) (v * 100) + "%").formatted(Formatting.GREEN));
+                                        if (pl != null) pl.sendMessage(Text.literal("Opacity set to " + (int) (v * 100) + "%").formatted(Formatting.GREEN), false);
                                         return 1;
                                     })
                             )
@@ -110,7 +118,7 @@ public class Commands {
                     .then(literal("reload").executes(ctx -> {
                         loader.reload();
                         var pl = MinecraftClient.getInstance().player;
-                        if (pl != null) pl.sendMessage(Text.literal("Blender2MCHolograms reloaded models").formatted(Formatting.GREEN));
+                        if (pl != null) pl.sendMessage(Text.literal("Blender2MCHolograms reloaded models").formatted(Formatting.GREEN), false);
                         return 1;
                     }))
             );
